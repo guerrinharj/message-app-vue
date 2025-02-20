@@ -1,6 +1,5 @@
 <template>
     <div>
-        <NavBar />
         <div class="create-message-container">
             <h2>Send a Message</h2>
             <input v-model="receiverId" type="number" placeholder="Receiver ID" />
@@ -12,13 +11,11 @@
 </template>
 
 <script>
-import NavBar from "@/components/NavBar.vue"; // ✅ Import properly
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 
 export default {
-    components: { NavBar }, // ✅ Register NavBar correctly
     setup() {
         const store = useStore();
         const router = useRouter();
