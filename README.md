@@ -3,6 +3,9 @@
 ## 📌 Overview
 This is a simple Vue.js frontend for a messaging system that interacts with a Rails API. It allows users to authenticate, view their messages, and send new messages in a clean and organized interface.
 
+🔗 **Backend API Repository**: [Message App API](https://github.com/guerrinharj/message_app)
+
+
 ## ✨ Features
 - **User Authentication**: Simple login interface where users enter their `user_id`.
 - **Message Display**: View all sent and received messages in a structured layout.
