@@ -1,7 +1,8 @@
 <template>
     <div class="login-container">
         <h2>Login</h2>
-        <input v-model="userId" type="number" placeholder="Enter your User ID" />
+        <input v-model="username" type="text" placeholder="Username" />
+        <input v-model="password" type="password" placeholder="Password" />
         <button @click="login">Login</button>
         <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
@@ -16,19 +17,24 @@ export default {
     setup() {
         const store = useStore();
         const router = useRouter();
-        const userId = ref("");
+        const username = ref("");
+        const password = ref("");
         const errorMessage = ref("");
 
         const login = async () => {
-            const success = await store.dispatch("login", userId.value);
+            const success = await store.dispatch("login", {
+                username: username.value,
+                password: password.value
+            });
+
             if (success) {
                 router.push("/messages");
             } else {
-                errorMessage.value = "Invalid login. Try again.";
+                errorMessage.value = "Invalid credentials. Try again.";
             }
         };
 
-        return { userId, login, errorMessage };
+        return { username, password, login, errorMessage };
     }
 };
 </script>

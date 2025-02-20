@@ -23,13 +23,29 @@ export default createStore({
         }
     },
     actions: {
-        async login({ commit }, userId) {
+        async login({ commit }, { username, password }) {
             try {
-                const response = await axios.post(`${API_URL}/login`, { username: userId });
-                commit("setUser", { userId, token: response.data.token });
+                // ✅ Send username and password to authenticate
+                const response = await axios.post(`${API_URL}/login`, {
+                    username: username,
+                    password: password
+                });
+
+                console.log(response)
+
+                // ✅ Extract userId and token from API response
+                const userId = response.data.user.id;  // Ensure API returns user ID
+                const token = response.data.token;
+
+                // ✅ Store userId and token
+                commit("setUser", { userId, token });
+
                 return true;
             } catch (error) {
                 console.error("Login failed:", error);
+
+                // ❌ Reset state if login fails
+                commit("logout");
                 return false;
             }
         },
