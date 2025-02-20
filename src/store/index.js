@@ -23,15 +23,13 @@ export default createStore({
         }
     },
     actions: {
-        async login({ commit }, { username, password }) {
+        async login({ commit }, {username, user_id, password }) {
             try {
-                // ✅ Send username and password to authenticate
-                const response = await axios.post(`${API_URL}/login`, {
-                    username: username,
-                    password: password
-                });
+                const loginPayload = user_id 
+                    ? { user_id: Number(user_id), password }  // Ensure `user_id` is a number
+                    : { username, password };
 
-                console.log(response)
+                const response = await axios.post(`${API_URL}/login`, loginPayload);
 
                 // ✅ Extract userId and token from API response
                 const userId = response.data.user.id;  // Ensure API returns user ID

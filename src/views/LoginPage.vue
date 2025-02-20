@@ -1,7 +1,7 @@
 <template>
     <div class="login-container">
         <h2>Login</h2>
-        <input v-model="username" type="text" placeholder="Username" />
+        <input v-model="userIdentifier" type="text" placeholder="Username or User ID" />
         <input v-model="password" type="password" placeholder="Password" />
         <button @click="login">Login</button>
         <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
@@ -17,24 +17,27 @@ export default {
     setup() {
         const store = useStore();
         const router = useRouter();
-        const username = ref("");
+        const userIdentifier = ref("");
         const password = ref("");
         const errorMessage = ref("");
 
         const login = async () => {
+            const isNumeric = !isNaN(userIdentifier.value); // Check if input is a number
+
             const success = await store.dispatch("login", {
-                username: username.value,
+                username: isNumeric ? null : userIdentifier.value,
+                user_id: isNumeric ? Number(userIdentifier.value) : null,
                 password: password.value
             });
 
             if (success) {
                 router.push("/messages");
             } else {
-                errorMessage.value = "Invalid credentials. Try again.";
+                errorMessage.value = "Invalid login. Try again.";
             }
         };
 
-        return { username, password, login, errorMessage };
+        return { userIdentifier, password, login, errorMessage };
     }
 };
 </script>
